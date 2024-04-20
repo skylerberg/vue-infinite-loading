@@ -1,7 +1,6 @@
 <script>
 import { defineComponent, Text } from 'vue';
 
-import eventHub from '../eventHub';
 import Spinner from './Spinner.vue';
 
 import config, {
@@ -117,60 +116,45 @@ export default /* #__PURE__ */defineComponent({
       this.scrollParent.addEventListener('scroll', this.scrollHandler, evt3rdArg);
     }, 1);
 
-    eventHub.$on('$InfiniteLoading:loaded', () => {
-      this.isFirstLoad = false;
-
-      if (this.direction === 'top') {
-        // wait for DOM updated
-        this.$nextTick(() => {
-          scrollBarStorage.restore(this.scrollParent);
-        });
-      }
-
-      if (this.status === STATUS.LOADING) {
-        this.$nextTick(this.attemptLoad.bind(null, true));
-      }
-    });
-
-    eventHub.$on('$InfiniteLoading:complete', () => {
-      this.status = STATUS.COMPLETE;
-
-      // force re-complation computed properties to fix the problem of get slot text delay
-      this.$nextTick(() => {
-        this.$forceUpdate();
-      });
-
-      this.scrollParent.removeEventListener('scroll', this.scrollHandler, evt3rdArg);
-    });
-
-    eventHub.$on('$InfiniteLoading:reset', () => {
-      this.status = STATUS.READY;
-      this.isFirstLoad = true;
-      scrollBarStorage.remove(this.scrollParent);
-      this.scrollParent.addEventListener('scroll', this.scrollHandler, evt3rdArg);
-
-      // wait for list to be empty and the empty action may trigger a scroll event
-      setTimeout(() => {
-        throttleer.reset();
-        this.scrollHandler();
-      }, 1);
-    });
-
     /**
-     * change state for this component, pass to the callback
+     * change state for this component
      */
     this.stateChanger = {
       loaded: () => {
-        this.$emit('$InfiniteLoading:loaded', { target: this });
-        eventHub.$emit('$InfiniteLoading:loaded', { target: this });
+        this.isFirstLoad = false;
+
+        if (this.direction === 'top') {
+          // wait for DOM updated
+          this.$nextTick(() => {
+            scrollBarStorage.restore(this.scrollParent);
+          });
+        }
+
+        if (this.status === STATUS.LOADING) {
+          this.$nextTick(this.attemptLoad.bind(null, true));
+        }
       },
       complete: () => {
-        this.$emit('$InfiniteLoading:complete', { target: this });
-        eventHub.$emit('$InfiniteLoading:complete', { target: this });
+        this.status = STATUS.COMPLETE;
+
+        // force re-complation computed properties to fix the problem of get slot text delay
+        this.$nextTick(() => {
+          this.$forceUpdate();
+        });
+
+        this.scrollParent.removeEventListener('scroll', this.scrollHandler, evt3rdArg);
       },
       reset: () => {
-        this.$emit('$InfiniteLoading:reset', { target: this });
-        eventHub.$emit('$InfiniteLoading:reset', { target: this });
+        this.status = STATUS.READY;
+        this.isFirstLoad = true;
+        scrollBarStorage.remove(this.scrollParent);
+        this.scrollParent.addEventListener('scroll', this.scrollHandler, evt3rdArg);
+
+        // wait for list to be empty and the empty action may trigger a scroll event
+        setTimeout(() => {
+          throttleer.reset();
+          this.scrollHandler();
+        }, 1);
       },
       error: () => {
         this.status = STATUS.ERROR;

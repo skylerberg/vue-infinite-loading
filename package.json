@@ -1,6 +1,6 @@
 {
   "name": "vue-infinite-loading",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "description": "An infinite scroll plugin for Vue.js",
   "main": "dist/vue-infinite-loading.ssr.js",
   "browser": "dist/vue-infinite-loading.esm.js",
@@ -49,9 +49,6 @@
     "url": "https://github.com/PeachScript/vue-infinite-loading/issues"
   },
   "homepage": "https://github.com/PeachScript/vue-infinite-loading",
-  "dependencies": {
-    "tiny-emitter": "^2.1.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
