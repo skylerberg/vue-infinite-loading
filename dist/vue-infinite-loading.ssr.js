@@ -1,41 +1,36 @@
-'use strict';var vue=require('vue');function _slicedToArray(arr, i) {
+'use strict';var vue=require('vue');function _iterableToArrayLimit(r, l) {
+  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = !0,
+      o = !1;
+    try {
+      if (i = (t = t.call(r)).next, 0 === l) {
+        if (Object(t) !== t) return;
+        f = !1;
+      } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+    } catch (r) {
+      o = !0, n = r;
+    } finally {
+      try {
+        if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
+      } finally {
+        if (o) throw n;
+      }
+    }
+    return a;
+  }
+}
+function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
-
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
   if (typeof o === "string") return _arrayLikeToArray(o, minLen);
@@ -44,99 +39,14 @@ function _unsupportedIterableToArray(o, minLen) {
   if (n === "Map" || n === "Set") return Array.from(o);
   if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
-
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
-
   for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
   return arr2;
 }
-
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}function E () {
-  // Keep this empty so it's easier to inherit from
-  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
-}
-
-E.prototype = {
-  on: function (name, callback, ctx) {
-    var e = this.e || (this.e = {});
-
-    (e[name] || (e[name] = [])).push({
-      fn: callback,
-      ctx: ctx
-    });
-
-    return this;
-  },
-
-  once: function (name, callback, ctx) {
-    var self = this;
-    function listener () {
-      self.off(name, listener);
-      callback.apply(ctx, arguments);
-    }
-    listener._ = callback;
-    return this.on(name, listener, ctx);
-  },
-
-  emit: function (name) {
-    var data = [].slice.call(arguments, 1);
-    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
-    var i = 0;
-    var len = evtArr.length;
-
-    for (i; i < len; i++) {
-      evtArr[i].fn.apply(evtArr[i].ctx, data);
-    }
-
-    return this;
-  },
-
-  off: function (name, callback) {
-    var e = this.e || (this.e = {});
-    var evts = e[name];
-    var liveEvents = [];
-
-    if (evts && callback) {
-      for (var i = 0, len = evts.length; i < len; i++) {
-        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
-          liveEvents.push(evts[i]);
-      }
-    }
-
-    // Remove event from queue to prevent memory leak
-    // Suggested by https://github.com/lazd
-    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
-
-    (liveEvents.length)
-      ? e[name] = liveEvents
-      : delete e[name];
-
-    return this;
-  }
-};
-
-var tinyEmitter = E;
-var TinyEmitter = E;
-tinyEmitter.TinyEmitter = TinyEmitter;var instance = new tinyEmitter();
-
-var emitter = instance;var eventHub = {
-  $on: function $on() {
-    return emitter.on.apply(emitter, arguments);
-  },
-  $once: function $once() {
-    return emitter.once.apply(emitter, arguments);
-  },
-  $off: function $off() {
-    return emitter.off.apply(emitter, arguments);
-  },
-  $emit: function $emit() {
-    return emitter.emit.apply(emitter, arguments);
-  }
-};var SPINNERS = ['bubbles', 'circles', 'spiral', 'wavedots'];
+}var SPINNERS = ['bubbles', 'circles', 'spiral', 'wavedots'];
 var script$1 = /* #__PURE__ */vue.defineComponent({
   name: 'Spinner',
   props: ['spinner'],
@@ -212,6 +122,7 @@ styleInject(css_248z$1);script$1.render = render$1;
 script$1.__scopeId = "data-v-18ae5a62";/*
  * default property values
  */
+
 var props = {
   // the default spinner type
   spinner: 'default',
@@ -220,6 +131,7 @@ var props = {
   // the default force use infinite wrapper flag
   forceUseInfiniteWrapper: false
 };
+
 /**
  * default system settings
  */
@@ -232,10 +144,10 @@ var system = {
   // the max allowed number of continuous calls, unit: ms
   loopCheckMaxCalls: 10
 };
+
 /**
  * default slot messages
  */
-
 var slots = {
   noResults: 'No results :(',
   noMore: 'No more data :)',
@@ -243,6 +155,7 @@ var slots = {
   errorBtnText: 'Retry',
   spinner: ''
 };
+
 /**
  * the 3rd argument for event bundler
  * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
@@ -250,7 +163,6 @@ var slots = {
 
 var evt3rdArg = function () {
   var result = false;
-
   try {
     var arg = Object.defineProperty({}, 'passive', {
       get: function get() {
@@ -262,12 +174,10 @@ var evt3rdArg = function () {
     });
     window.addEventListener('testpassive', arg, arg);
     window.remove('testpassive', arg, arg);
-  } catch (e) {
-    /* */
-  }
-
+  } catch (e) {/* */}
   return result;
 }();
+
 /**
  * warning messages
  */
@@ -275,6 +185,7 @@ var evt3rdArg = function () {
 var WARNINGS = {
   INFINITE_EVENT: '`:on-infinite` property will be deprecated soon, please use `@infinite` event instead.'
 };
+
 /**
  * error messages
  */
@@ -282,20 +193,20 @@ var WARNINGS = {
 var ERRORS = {
   INFINITE_LOOP: ["executed the callback function more than ".concat(system.loopCheckMaxCalls, " times for a short time, it looks like searched a wrong scroll wrapper that doest not has fixed height or maximum height, please check it. If you want to force to set a element as scroll wrapper ranther than automatic searching, you can do this:"), "\n<!-- add a special attribute for the real scroll wrapper -->\n<div infinite-wrapper>\n  ...\n  <!-- set force-use-infinite-wrapper -->\n  <infinite-loading force-use-infinite-wrapper></infinite-loading>\n</div>\nor\n<div class=\"infinite-wrapper\">\n  ...\n  <!-- set force-use-infinite-wrapper as css selector of the real scroll wrapper -->\n  <infinite-loading force-use-infinite-wrapper=\".infinite-wrapper\"></infinite-loading>\n</div>\n    ", 'more details: https://github.com/PeachScript/vue-infinite-loading/issues/55#issuecomment-316934169'].join('\n')
 };
+
 /**
  * plugin status constants
  */
-
 var STATUS = {
   READY: 0,
   LOADING: 1,
   COMPLETE: 2,
   ERROR: 3
 };
+
 /**
  * default slot styles
  */
-
 var SLOT_STYLES = {
   color: '#666',
   fontSize: '14px',
@@ -310,22 +221,22 @@ var config = {
   ERRORS: ERRORS,
   STATUS: STATUS
 };/* eslint-disable no-console */
+
 /**
  * console warning in production
  * @param {String} msg console content
  */
-
 function warn(msg) {
   /* istanbul ignore else */
   {
     console.warn("[Vue-infinite-loading warn]: ".concat(msg));
   }
 }
+
 /**
  * console error
  * @param {String} msg console content
  */
-
 function error(msg) {
   console.error("[Vue-infinite-loading error]: ".concat(msg));
 }
@@ -334,16 +245,16 @@ var throttleer = {
   caches: [],
   throttle: function throttle(fn) {
     var _this = this;
-
     if (this.caches.indexOf(fn) === -1) {
       // cache current handler
-      this.caches.push(fn); // save timer for current handler
+      this.caches.push(fn);
 
+      // save timer for current handler
       this.timers.push(setTimeout(function () {
-        fn(); // empty cache and timer
+        fn();
 
+        // empty cache and timer
         _this.caches.splice(_this.caches.indexOf(fn), 1);
-
         _this.timers.shift();
       }, config.system.throttleLimit));
     }
@@ -353,8 +264,9 @@ var throttleer = {
     this.timers.forEach(function (timer) {
       clearTimeout(timer);
     });
-    this.timers.length = 0; // empty caches
+    this.timers.length = 0;
 
+    // empty caches
     this.caches = [];
   }
 };
@@ -364,15 +276,16 @@ var loopTracker = {
   times: 0,
   track: function track() {
     var _this2 = this;
-
     // record track times
-    this.times += 1; // try to mark check status
+    this.times += 1;
 
+    // try to mark check status
     clearTimeout(this.timer);
     this.timer = setTimeout(function () {
       _this2.isChecked = true;
-    }, config.system.loopCheckTimeout); // throw warning if the times of continuous calls large than the maximum times
+    }, config.system.loopCheckTimeout);
 
+    // throw warning if the times of continuous calls large than the maximum times
     if (this.times > config.system.loopCheckMaxCalls) {
       error(ERRORS.INFINITE_LOOP);
       this.isChecked = true;
@@ -385,18 +298,18 @@ var scrollBarStorage = {
     return elm === window ? document.documentElement : elm;
   },
   save: function save(elm) {
-    var target = this.getScrollElm(elm); // save scroll height on the scroll parent
+    var target = this.getScrollElm(elm);
 
+    // save scroll height on the scroll parent
     target[this.key] = target.scrollHeight;
   },
   restore: function restore(elm) {
     var target = this.getScrollElm(elm);
-    /* istanbul ignore else */
 
+    /* istanbul ignore else */
     if (typeof target[this.key] === 'number') {
       target.scrollTop = target.scrollHeight - target[this.key] + target.scrollTop;
     }
-
     this.remove(target);
   },
   remove: function remove(elm) {
@@ -406,23 +319,23 @@ var scrollBarStorage = {
     }
   }
 };
+
 /**
  * kebab-case a camel-case string
  * @param   {String}    str  source string
  * @return  {String}
  */
-
 function kebabCase(str) {
   return str.replace(/[A-Z]/g, function (s) {
     return "-".concat(s.toLowerCase());
   });
 }
+
 /**
  * get visibility for element
  * @param   {DOM}     elm
  * @return  {Boolean}
  */
-
 function isVisible(elm) {
   return elm.offsetWidth + elm.offsetHeight > 0;
 }var script = /* #__PURE__ */vue.defineComponent({
@@ -456,15 +369,16 @@ function isVisible(elm) {
     },
     slotStyles: function slotStyles() {
       var _this = this;
-
       var styles = {};
       Object.keys(config.slots).forEach(function (key) {
         var _this$$slots$name$;
-
         var name = kebabCase(key);
+        if (
+        // no slot and the configured default slot is not a Vue component
+        !_this.$slots[name] && !config.slots[key].render
 
-        if ( // no slot and the configured default slot is not a Vue component
-        !_this.$slots[name] && !config.slots[key].render || _this.$slots[name] && ((_this$$slots$name$ = _this.$slots[name]()[0]) === null || _this$$slots$name$ === void 0 ? void 0 : _this$$slots$name$.type) === vue.Text) {
+        // has slot and slot is pure text node
+        || _this.$slots[name] && ((_this$$slots$name$ = _this.$slots[name]()[0]) === null || _this$$slots$name$ === void 0 ? void 0 : _this$$slots$name$.type) === vue.Text) {
           // only apply default styles for pure text slot
           styles[key] = SLOT_STYLES;
         } else {
@@ -499,13 +413,11 @@ function isVisible(elm) {
   },
   mounted: function mounted() {
     var _this2 = this;
-
     this.$watch('forceUseInfiniteWrapper', function () {
       _this2.scrollParent = _this2.getScrollParent();
     }, {
       immediate: true
     });
-
     this.scrollHandler = function (ev) {
       if (_this2.status === STATUS.READY) {
         if (ev && ev.constructor === Event && isVisible(_this2.$el)) {
@@ -515,92 +427,57 @@ function isVisible(elm) {
         }
       }
     };
-
     setTimeout(function () {
       _this2.scrollHandler();
-
       _this2.scrollParent.addEventListener('scroll', _this2.scrollHandler, evt3rdArg);
     }, 1);
-    eventHub.$on('$InfiniteLoading:loaded', function () {
-      _this2.isFirstLoad = false;
 
-      if (_this2.direction === 'top') {
-        // wait for DOM updated
-        _this2.$nextTick(function () {
-          scrollBarStorage.restore(_this2.scrollParent);
-        });
-      }
-
-      if (_this2.status === STATUS.LOADING) {
-        _this2.$nextTick(_this2.attemptLoad.bind(null, true));
-      }
-    });
-    eventHub.$on('$InfiniteLoading:complete', function () {
-      _this2.status = STATUS.COMPLETE; // force re-complation computed properties to fix the problem of get slot text delay
-
-      _this2.$nextTick(function () {
-        _this2.$forceUpdate();
-      });
-
-      _this2.scrollParent.removeEventListener('scroll', _this2.scrollHandler, evt3rdArg);
-    });
-    eventHub.$on('$InfiniteLoading:reset', function () {
-      _this2.status = STATUS.READY;
-      _this2.isFirstLoad = true;
-      scrollBarStorage.remove(_this2.scrollParent);
-
-      _this2.scrollParent.addEventListener('scroll', _this2.scrollHandler, evt3rdArg); // wait for list to be empty and the empty action may trigger a scroll event
-
-
-      setTimeout(function () {
-        throttleer.reset();
-
-        _this2.scrollHandler();
-      }, 1);
-    });
     /**
-     * change state for this component, pass to the callback
+     * change state for this component
      */
-
     this.stateChanger = {
       loaded: function loaded() {
-        _this2.$emit('$InfiniteLoading:loaded', {
-          target: _this2
-        });
-
-        eventHub.$emit('$InfiniteLoading:loaded', {
-          target: _this2
-        });
+        _this2.isFirstLoad = false;
+        if (_this2.direction === 'top') {
+          // wait for DOM updated
+          _this2.$nextTick(function () {
+            scrollBarStorage.restore(_this2.scrollParent);
+          });
+        }
+        if (_this2.status === STATUS.LOADING) {
+          _this2.$nextTick(_this2.attemptLoad.bind(null, true));
+        }
       },
       complete: function complete() {
-        _this2.$emit('$InfiniteLoading:complete', {
-          target: _this2
-        });
+        _this2.status = STATUS.COMPLETE;
 
-        eventHub.$emit('$InfiniteLoading:complete', {
-          target: _this2
+        // force re-complation computed properties to fix the problem of get slot text delay
+        _this2.$nextTick(function () {
+          _this2.$forceUpdate();
         });
+        _this2.scrollParent.removeEventListener('scroll', _this2.scrollHandler, evt3rdArg);
       },
       reset: function reset() {
-        _this2.$emit('$InfiniteLoading:reset', {
-          target: _this2
-        });
+        _this2.status = STATUS.READY;
+        _this2.isFirstLoad = true;
+        scrollBarStorage.remove(_this2.scrollParent);
+        _this2.scrollParent.addEventListener('scroll', _this2.scrollHandler, evt3rdArg);
 
-        eventHub.$emit('$InfiniteLoading:reset', {
-          target: _this2
-        });
+        // wait for list to be empty and the empty action may trigger a scroll event
+        setTimeout(function () {
+          throttleer.reset();
+          _this2.scrollHandler();
+        }, 1);
       },
       error: function error() {
         _this2.status = STATUS.ERROR;
         throttleer.reset();
       }
     };
-
     if (this.onInfinite) {
       warn(WARNINGS.INFINITE_EVENT);
     }
   },
-
   /**
    * To adapt to keep-alive feature, but only work on Vue 2.2.0 and above, see: https://vuejs.org/v2/api/#keep-alive
    */
@@ -609,7 +486,6 @@ function isVisible(elm) {
     if (this.status === STATUS.LOADING) {
       this.status = STATUS.READY;
     }
-
     this.scrollParent.removeEventListener('scroll', this.scrollHandler, evt3rdArg);
   },
   activated: function activated() {
@@ -624,23 +500,19 @@ function isVisible(elm) {
      */
     attemptLoad: function attemptLoad(isContinuousCall) {
       var _this3 = this;
-
       if (this.status !== STATUS.COMPLETE && isVisible(this.$el) && this.getCurrentDistance() <= this.distance) {
         this.status = STATUS.LOADING;
-
         if (this.direction === 'top') {
           // wait for spinner display
           this.$nextTick(function () {
             scrollBarStorage.save(_this3.scrollParent);
           });
         }
-
         if (typeof this.onInfinite === 'function') {
           this.onInfinite.call(null, this.stateChanger);
         } else {
           this.$emit('infinite', this.stateChanger);
         }
-
         if (isContinuousCall && !this.forceUseInfiniteWrapper && !loopTracker.isChecked) {
           // check this component whether be in an infinite loop if it is not checked
           // more details: https://github.com/PeachScript/vue-infinite-loading/issues/55#issuecomment-316934169
@@ -650,14 +522,12 @@ function isVisible(elm) {
         this.status = STATUS.READY;
       }
     },
-
     /**
      * get current distance from the specified direction
      * @return {Number}     distance
      */
     getCurrentDistance: function getCurrentDistance() {
       var distance;
-
       if (this.direction === 'top') {
         distance = typeof this.scrollParent.scrollTop === 'number' ? this.scrollParent.scrollTop : this.scrollParent.pageYOffset;
       } else {
@@ -665,10 +535,8 @@ function isVisible(elm) {
         var scrollElmOffsetTopFromBottom = this.scrollParent === window ? window.innerHeight : this.scrollParent.getBoundingClientRect().bottom;
         distance = infiniteElmOffsetTopFromBottom - scrollElmOffsetTopFromBottom;
       }
-
       return distance;
     },
-
     /**
      * get the first scroll parent of an element
      * @param  {DOM} elm    cache element for recursive search
@@ -677,11 +545,9 @@ function isVisible(elm) {
     getScrollParent: function getScrollParent() {
       var elm = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$el;
       var result;
-
       if (typeof this.forceUseInfiniteWrapper === 'string') {
         result = document.querySelector(this.forceUseInfiniteWrapper);
       }
-
       if (!result) {
         if (elm.tagName === 'BODY') {
           result = window;
@@ -691,7 +557,6 @@ function isVisible(elm) {
           result = elm;
         }
       }
-
       return result || this.getScrollParent(elm.parentNode);
     }
   },
@@ -704,21 +569,17 @@ function isVisible(elm) {
     }
   }
 });var _withScopeId = function _withScopeId(n) {
-  return vue.pushScopeId("data-v-38327aa8"), n = n(), vue.popScopeId(), n;
+  return vue.pushScopeId("data-v-7a2ba0d7"), n = n(), vue.popScopeId(), n;
 };
-
 var _hoisted_1 = {
   class: "infinite-loading-container"
 };
-
 var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/vue.createElementVNode("br", null, null, -1);
 });
-
 var _hoisted_3 = ["textContent"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_spinner = vue.resolveComponent("spinner");
-
   return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [vue.withDirectives(vue.createElementVNode("div", {
     class: "infinite-status-prompt",
     style: vue.normalizeStyle(_ctx.slotStyles.spinner)
@@ -765,31 +626,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       textContent: vue.toDisplayString(_ctx.slots.errorBtnText)
     }, null, 8, _hoisted_3)], 64))];
   })], 4), [[vue.vShow, _ctx.isShowError]])]);
-}var css_248z = ".infinite-loading-container[data-v-38327aa8] {\n  clear: both;\n  text-align: center;\n}\n.infinite-loading-container[data-v-38327aa8] *[class^=loading-] {\n  display: inline-block;\n  margin: 5px 0;\n  width: 28px;\n  height: 28px;\n  font-size: 28px;\n  line-height: 28px;\n  border-radius: 50%;\n}\n.btn-try-infinite[data-v-38327aa8] {\n  margin-top: 5px;\n  padding: 5px 10px;\n  color: #999;\n  font-size: 14px;\n  line-height: 1;\n  background: transparent;\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  outline: none;\n  cursor: pointer;\n}\n.btn-try-infinite[data-v-38327aa8]:not(:active):hover {\n  opacity: 0.8;\n}\n";
+}var css_248z = ".infinite-loading-container[data-v-7a2ba0d7] {\n  clear: both;\n  text-align: center;\n}\n.infinite-loading-container[data-v-7a2ba0d7] *[class^=loading-] {\n  display: inline-block;\n  margin: 5px 0;\n  width: 28px;\n  height: 28px;\n  font-size: 28px;\n  line-height: 28px;\n  border-radius: 50%;\n}\n.btn-try-infinite[data-v-7a2ba0d7] {\n  margin-top: 5px;\n  padding: 5px 10px;\n  color: #999;\n  font-size: 14px;\n  line-height: 1;\n  background: transparent;\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  outline: none;\n  cursor: pointer;\n}\n.btn-try-infinite[data-v-7a2ba0d7]:not(:active):hover {\n  opacity: 0.8;\n}\n";
 styleInject(css_248z);script.render = render;
-script.__scopeId = "data-v-38327aa8";// Import vue component
+script.__scopeId = "data-v-7a2ba0d7";// Import vue component
+
+// Default export is installable instance of component.
 // IIFE injects install function into component, allowing component
 // to be registered via Vue.use() as well as Vue.component(),
-
 var component = /* #__PURE__ */(function () {
   // Get component instance
-  var installable = script; // Attach install function executed by Vue.use()
+  var installable = script;
 
+  // Attach install function executed by Vue.use()
   installable.install = function (app) {
     app.component('VueInfiniteLoading', installable);
   };
-
   return installable;
-})(); // It's possible to expose named exports when writing components that can
+})();
+
+// It's possible to expose named exports when writing components that can
 // also be used as directives, etc. - eg. import { RollupDemoDirective } from 'rollup-demo';
 // export const RollupDemoDirective = directive;
-var namedExports=/*#__PURE__*/Object.freeze({__proto__:null,'default':component});// only expose one global var, with named exports exposed as properties of
+var namedExports=/*#__PURE__*/Object.freeze({__proto__:null,'default':component});// Attach named exports directly to component. IIFE/CJS will
+// only expose one global var, with named exports exposed as properties of
 // that global var (eg. plugin.namedExport)
-
 Object.entries(namedExports).forEach(function (_ref) {
   var _ref2 = _slicedToArray(_ref, 2),
-      exportName = _ref2[0],
-      exported = _ref2[1];
-
+    exportName = _ref2[0],
+    exported = _ref2[1];
   if (exportName !== 'default') component[exportName] = exported;
 });module.exports=component;
